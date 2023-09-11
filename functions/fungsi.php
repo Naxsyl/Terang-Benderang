@@ -61,16 +61,25 @@ function registrasi($data, $conn)
 //     return $status;
 // }
 
-function cek_status($nama)
+function login($conn, $username, $password)
+{
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username = :username");
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($row && password_verify($password, $row["password"])) {
+        return $row["role"]; // Mengembalikan peran pengguna
+    } else {
+        return false; // Login gagal
+    }
+}
+
+function hapus($id)
 {
     global $conn;
-
-    $nama = strtolower(stripslashes($nama["username"]));
-    $query = "SELECT role FROM user WHERE username = :nama";
-    $stmt = $conn->prepare($query);
-    $stmt->bindParam(':nama', $nama, PDO::PARAM_STR);
+    $stmt = $conn->prepare("DELETE FROM product WHERE id = :id");
+    $stmt->bindParam(':id', $id);
     $stmt->execute();
-
-    $status = $stmt->fetch(PDO::FETCH_ASSOC)['role'];
-    return $status;
+    return $stmt->rowCount();
 }

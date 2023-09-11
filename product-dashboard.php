@@ -22,6 +22,7 @@ $product = getAllProducts($conn);
         <table class="table" border="1" cellspacing="0">
             <tr>
                 <th>No.</th>
+                <th>Aksi</th>
                 <th>Name</th>
                 <th>Country</th>
                 <th>deskripsi</th>
@@ -34,9 +35,11 @@ $product = getAllProducts($conn);
             <?php foreach ($product as $row) : ?>
                 <tr>
                     <td><?= $i; ?></td>
+                    <td class="aksi"><a href="ubah.php?id=<?= $row["id"]; ?> " class="ubah">ubah</a> <a href="hapus.php?id=<?= $row["id"]; ?>" class="hapus" onclick="return confirm('yakin?');">hapus</a>
+                    </td>
                     <td><?= $row["name"]; ?></td>
                     <td><?= $row["country"]; ?></td>
-                    <td><?= $row["description"]; ?></td>
+                    <td class="desk"><?= $row["description"]; ?></td>
                     <td>
                         <img src="<?= $row["image"]; ?>" alt="" width="100px">
                     </td>
